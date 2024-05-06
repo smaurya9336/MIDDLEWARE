@@ -16,11 +16,23 @@ const app = express();
 //   //   console.log("this is after next");bad way
 // });
 
-app.use((req, res, next) => {
-  req.time = Date.now();
-  console.log(req.method, req.hostname, req.path, req.time);
-  next();
+// app.use((req, res, next) => {
+//   req.time = Date.now();
+//   console.log(req.method, req.hostname, req.path, req.time);
+//   next();
+// });
+app.use("/api", (req, res, next) => {
+  let { token } = req.query;
+  if (token === "giveaccess") {
+    next();
+  }
+  res.send("Access Denied");
 });
+
+app.get("/api", (req, res) => {
+  res.send("data");
+});
+
 app.get("/", (req, res) => {
   res.send("Hi, I am root");
 });
